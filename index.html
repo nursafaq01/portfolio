@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moch Nursafaq - Portofolio Modern</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+            color: #d1d5db; /* text-gray-300 */
+            overflow-x: hidden; 
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Roboto Slab', serif;
+        }
+        .nav-link {
+            transition: color 0.3s ease-in-out, transform 0.2s ease;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            display: block; /* Untuk menu mobile */
+            width: 100%; /* Untuk menu mobile */
+            text-align: left; /* Untuk menu mobile */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .nav-link {
+                display: inline-block; /* Kembali ke inline untuk desktop */
+                width: auto;
+                text-align: center;
+            }
+        }
+        .nav-link:hover {
+            color: #38bdf8; /* text-sky-400 */
+            transform: translateY(-2px);
+        }
+        .nav-link.active {
+            color: #0ea5e9; /* text-sky-500 */
+            font-weight: 700;
+            background-color: rgba(14, 165, 233, 0.1); 
+        }
+        .section {
+            padding-top: 5rem; 
+            padding-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(20px); 
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card {
+            background-color: #1f2937; 
+            border-radius: 0.75rem;
+            border: 1px solid #374151; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3); 
+            border-color: #0ea5e9; 
+        }
+        .tag {
+            background-color: #38bdf8; 
+            color: #111827; 
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .btn-primary {
+            background-color: #0ea5e9; 
+            color: white;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.4);
+        }
+        .btn-primary:hover {
+            background-color: #0284c7; 
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(14, 165, 233, 0.5);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px; 
+            top: 4px; 
+            width: 22px; 
+            height: 22px;
+            border-radius: 50%;
+            background-color: #0ea5e9; 
+            border: 4px solid #111827; 
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.2);
+        }
+        .timeline-line {
+            position: absolute;
+            left: -21px;
+            top: 0;
+            bottom: 0;
+            width: 3px; 
+            background-color: #374151; 
+        }
+        .icon-user::before { content: "👤"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-tools::before { content: "🛠️"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-briefcase::before { content: "💼"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-education::before { content: "🎓"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-certificate::before { content: "📜"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-project::before { content: "💡"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-contact::before { content: "📧"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+        .icon-location::before { content: "📍"; margin-right: 0.3rem; }
+        .icon-calendar::before { content: "📅"; margin-right: 0.3rem; }
+        .icon-datacenter::before { content: "🖥️"; margin-right: 0.75rem; filter: grayscale(30%) opacity(0.8); }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top left, rgba(14, 165, 233, 0.15), transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.1), transparent 50%);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.5), 0 0 30px rgba(56, 189, 248, 0.3);
+        }
+        .profile-image-container { 
+            width: 256px; 
+            height: 256px; 
+            border-radius: 50%;
+            overflow: hidden; 
+            border: 4px solid #0ea5e9; 
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1f2937;
+        }
+        @media (min-width: 768px) { 
+            .profile-image-container {
+                width: 320px; 
+                height: 320px; 
+            }
+        }
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+        .certification-card {
+            min-height: 100px;
+        }
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open {
+            max-height: 500px; /* Adjust as needed */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-gray-900/70 backdrop-blur-lg shadow-xl sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#beranda" class="text-3xl font-black text-sky-400 text-glow">Moch Nursafaq</a>
+                <div class="hidden md:flex space-x-2 md:space-x-4 text-sm md:text-base">
+                    <a href="#tentang" class="nav-link text-gray-300">Tentang Saya</a>
+                    <a href="#keahlian" class="nav-link text-gray-300">Keahlian</a>
+                    <a href="#pengalaman" class="nav-link text-gray-300">Pengalaman</a>
+                    <a href="#pendidikan" class="nav-link text-gray-300">Pendidikan</a>
+                    <a href="#sertifikasi" class="nav-link text-gray-300">Sertifikasi</a>
+                    <a href="#kontak" class="nav-link text-gray-300">Kontak</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-sky-400 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="mobile-menu md:hidden mt-2 space-y-1">
+                <a href="#tentang" class="nav-link text-gray-300">Tentang Saya</a>
+                <a href="#keahlian" class="nav-link text-gray-300">Keahlian</a>
+                <a href="#pengalaman" class="nav-link text-gray-300">Pengalaman</a>
+                <a href="#pendidikan" class="nav-link text-gray-300">Pendidikan</a>
+                <a href="#sertifikasi" class="nav-link text-gray-300">Sertifikasi</a>
+                <a href="#kontak" class="nav-link text-gray-300">Kontak</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="beranda" class="section min-h-screen flex items-center hero-gradient">
+            <div class="container mx-auto px-6 text-center md:text-left flex flex-col-reverse md:flex-row items-center justify-between">
+                <div class="md:w-3/5 lg:w-1/2 mb-10 md:mb-0 animate-fadeInUp" style="animation-delay: 0.2s;">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-white mb-5 leading-tight">
+                        Moch Nursafaq
+                    </h1>
+                    <p class="text-xl sm:text-2xl md:text-3xl text-sky-400 font-semibold mb-8 text-glow">
+                        IT Network System & Security Specialist
+                    </p>
+                    <p class="text-gray-400 text-base sm:text-lg mb-10 max-w-xl mx-auto md:mx-0">
+                        Mendedikasikan keahlian dalam administrasi sistem dan jaringan untuk membangun infrastruktur IT yang tangguh, aman, dan berperforma tinggi. Antusias dalam eksplorasi pemrograman untuk solusi otomatisasi inovatif.
+                    </p>
+                    <a href="#kontak" class="btn-primary py-3 px-8 sm:px-10 rounded-lg font-bold text-base sm:text-lg inline-block">
+                        Mari Terhubung
+                    </a>
+                </div>
+                <div class="md:w-2/5 lg:w-1/3 flex justify-center mb-12 md:mb-0 animate-fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="profile-image-container">
+                        <img src="https://placehold.co/320x320/1f2937/38bdf8?text=Foto+Anda" alt="Foto Profil Moch Nursafaq" class="profile-image" onerror="this.src='https://placehold.co/320x320/1f2937/38bdf8?text=Gagal+Muat'; this.alt='Gagal memuat foto profil';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-user">Tentang Saya</h2>
+                <div class="max-w-3xl mx-auto card p-6 sm:p-8 md:p-12">
+                    <p class="text-gray-300 leading-relaxed text-base sm:text-lg mb-6">
+                        Saya Moch Nursafaq, seorang profesional IT dari Cilacap, Jawa Tengah, kini menetap di Kota Tangerang. Gairah saya terletak pada eksplorasi dan penguasaan administrasi sistem jaringan. Keahlian praktis saya mencakup konfigurasi beragam perangkat jaringan (router, switch, access point) dan server (Linux, Windows).
+                    </p>
+                    <p class="text-gray-300 leading-relaxed text-base sm:text-lg">
+                        Di luar infrastruktur, saya juga memiliki ketertarikan kuat pada dunia pemrograman, di mana saya menikmati proses pembuatan skrip, pengembangan aplikasi sederhana, dan implementasi otomatisasi untuk menyederhanakan alur kerja dan meningkatkan produktivitas.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mt-6 sm:mt-8 text-sm sm:text-md">
+                        <span class="icon-location text-sky-400"></span>Cibodas, Kota Tangerang, 15138
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="keahlian" class="section bg-gray-800/30">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-tools">Keahlian Inti</h2>
+                <div class="grid md:grid-cols-2 gap-8 sm:gap-10 max-w-5xl mx-auto">
+                    <div class="card p-6 sm:p-8">
+                        <h3 class="text-xl sm:text-2xl font-bold text-sky-400 mb-4">Sistem & Keamanan Jaringan IT</h3>
+                        <ul class="space-y-2 text-gray-300 text-sm sm:text-base">
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Konfigurasi Router Lanjutan (Cisco, Mikrotik, Juniper, H3C, Ruijie)</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Manajemen Switch & VLAN</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Implementasi Keamanan Jaringan (Firewall, VPN, IDS/IPS)</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Desain & Analisis Topologi Jaringan Kompleks</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Penguasaan Segment Routing & MPLS</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Analisis & Mitigasi Ancaman Siber (XSIAM Concept)</li>
+                        </ul>
+                    </div>
+                    <div class="card p-6 sm:p-8">
+                        <h3 class="text-xl sm:text-2xl font-bold text-sky-400 mb-4">Administrasi Sistem & Virtualisasi</h3>
+                        <ul class="space-y-2 text-gray-300 text-sm sm:text-base">
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Instalasi, Konfigurasi & Hardening Server Linux</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Manajemen Server Windows & Active Directory</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Implementasi & Manajemen Platform Virtualisasi</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Administrasi Web Server (Nginx, Apache) & Load Balancing</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Manajemen Database Relasional (MySQL)</li>
+                            <li class="flex items-start"><span class="text-sky-400 mr-2 mt-1 text-lg">✓</span>Pengembangan Skrip Otomatisasi (Bash, Python)</li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="text-center mt-12 sm:mt-16">
+                    <p class="text-gray-400 font-medium text-md sm:text-lg mb-4">Pembelajaran Berkelanjutan Melalui:</p>
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+                        <span class="tag">Cisco Netacad Modules (NETEST, ITN, SRWE, ENSA)</span>
+                        <span class="tag">Webinar Series: Advanced DNS & Nmap Techniques</span>
+                        <span class="tag">Workshop: Secure Web Server Architecture (Nginx, PHP, MySQL)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pengalaman" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-16 sm:mb-20 text-center icon-briefcase"> Pengalaman </h2>
+                <div class="max-w-3xl mx-auto relative">
+                    <div class="timeline-line hidden md:block"></div>
+                    <div class="mb-12 sm:mb-16 timeline-item relative pl-8 sm:pl-10 md:pl-16 card p-6 hover:shadow-sky-500/40">
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-sky-400 mb-2">Technical Specialist & Trainer <span class="text-gray-400 font-normal text-lg sm:text-xl block md:inline">di CV Best Path Solusi</span></h3>
+                        <p class="text-xs sm:text-sm text-gray-500 mb-4"><span class="icon-calendar"></span>Berbagai Periode Kunci (2024)</p>
+                        <ul class="list-disc list-outside ml-5 space-y-3 text-gray-300 text-sm sm:text-base">
+                            <li>
+                                <strong>Arsitek Jaringan H3C PT ASDP Indonesia Ferry:</strong> Memimpin implementasi dan konfigurasi infrastruktur jaringan H3C di jalur vital Merak-Bakauheni, memastikan konektivitas maritim yang tangguh dan berperforma tinggi (18 Jan - 8 Feb 2024).
+                            </li>
+                            <li>
+                                <strong>Analis Topologi & Infrastruktur Ruijie PT Ceria Metalindo Prima:</strong> Melakukan audit komprehensif dan pemetaan strategis jaringan telekomunikasi Ruijie, menghasilkan rekomendasi untuk optimalisasi dan skalabilitas.
+                            </li>
+                            <li>
+                                <strong>Pengembang Kurikulum Segment Routing (PT Lintas Arta & PT Fiber Star):</strong> Merancang dan menyajikan materi pelatihan inovatif serta laboratorium praktis mengenai segment routing, memberdayakan tim teknis perusahaan.
+                            </li>
+                            <li>
+                                <strong>Fasilitator Ahli Training Cyber Security OT/SCADA PT PLN:</strong> Berperan sebagai asisten training, memberikan dukungan teknis dan keahlian dalam pelatihan fundamental keamanan siber untuk sistem OT/SCADA di PT PLN Yogyakarta (19-23 Agustus 2024).
+                            </li>
+                             <li>
+                                <strong>Lead Trainer IT Network (Cisco, Juniper, Mikrotik) untuk Klien Korporat:</strong> Menyampaikan program pelatihan jaringan intensif dan komprehensif selama dua minggu melalui Mutimatics, meningkatkan kapabilitas teknis tim IT (22 Nov - 4 Des 2024).
+                            </li>
+                            <li>
+                                <strong>Instruktur Online Training Fortinet Security Fundamentals:</strong> Memandu sesi pelatihan daring mengenai dasar-dasar keamanan Fortinet, membekali peserta dengan pengetahuan fundamental untuk mengelola solusi keamanan Fortinet.
+                            </li>
+                            <li>
+                                <strong> Security Operation Center (SOC) untuk Bank Syariah Indonesia (BSI):</strong> Selama saya bertugas di lingkungan Security Operations Center (SOC), saya memiliki pengalaman langsung dalam memantau dan menganalisis berbagai insiden keamanan menggunakan platform XSIAM dari Palo Alto Networks. Saya menggunakan XSIAM untuk melakukan deteksi ancaman secara real-time, korelasi log, hingga otomasi respons terhadap insiden siber.
+                        </ul>
+                    </div>
+
+                    <div class="mb-12 sm:mb-16 timeline-item relative pl-8 sm:pl-10 md:pl-16 card p-6 hover:shadow-sky-500/40">
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-sky-400 mb-2"><span class="icon-datacenter"></span>Spesialis Infrastruktur Data Center <span class="text-gray-400 font-normal text-lg sm:text-xl block md:inline">di Badan Siber Dan Sandi Negara</span></h3>
+                        <p class="text-xs sm:text-sm text-gray-500 mb-4"><span class="icon-calendar"></span>Periode Strategis</p>
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                            Memainkan peran kunci dalam asesmen infrastruktur data center nasional, meliputi analisis detail jalur kabel, optimalisasi tata letak ruang server, dan perencanaan kapasitas rak. Keahlian ini memastikan implementasi yang mulus dan efisien untuk perangkat jaringan Spine & Leaf generasi terbaru, memperkuat fondasi data center negara.
+                        </p>
+                    </div>
+
+                    <div class="mb-12 sm:mb-16 timeline-item relative pl-8 sm:pl-10 md:pl-16 card p-6 hover:shadow-sky-500/40">
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-sky-400 mb-2">Arsitek Topologi ICT <span class="text-gray-400 font-normal text-lg sm:text-xl block md:inline">untuk Bank Indonesia</span></h3>
+                         <p class="text-xs sm:text-sm text-gray-500 mb-4"><span class="icon-calendar"></span>Periode Proyek</p>
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                            Merancang arsitektur Topologi ICT Logis yang canggih untuk proyek prestisius SMART KAWASAN KARAWANG DAN GRESIK, menciptakan infrastruktur jaringan yang scalable dan aman untuk mendukung ekosistem kawasan pintar.
+                        </p>
+                    </div>
+                     <div class="timeline-item relative pl-8 sm:pl-10 md:pl-16 card p-6 hover:shadow-sky-500/40">
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-sky-400 mb-2">Konsultan Desain Jaringan <span class="text-gray-400 font-normal text-lg sm:text-xl block md:inline">untuk Universitas Trisakti</span></h3>
+                        <p class="text-xs sm:text-sm text-gray-500 mb-4"><span class="icon-calendar"></span>Periode Kolaborasi</p>
+                        <p class="text-gray-300 leading-relaxed text-sm sm:text-base">
+                           Memimpin perancangan dan pengembangan desain topologi jaringan komprehensif untuk Universitas Trisakti, memastikan infrastruktur IT yang optimal untuk mendukung kegiatan akademik, riset, dan operasional universitas ternama.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pendidikan" class="section bg-gray-800/30">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-education">Latar Belakang Pendidikan</h2>
+                <div class="grid md:grid-cols-2 gap-8 sm:gap-10 max-w-3xl mx-auto">
+                    <div class="card p-6 sm:p-8 text-center">
+                        <h3 class="text-xl sm:text-2xl font-bold text-sky-400">SMK Al-Munawwarah Cilacap</h3>
+                        <p class="text-gray-300 font-medium text-md sm:text-lg mt-1">Teknik Komputer dan Jaringan (TKJ)</p>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-2"><span class="icon-calendar"></span>2020 – 2023</p>
+                    </div>
+                    <div class="card p-6 sm:p-8 text-center">
+                        <h3 class="text-xl sm:text-2xl font-bold text-sky-400">Bestpath-Network Academy</h3>
+                        <p class="text-gray-300 font-medium text-md sm:text-lg mt-1">Program Intensif Jaringan Profesional</p>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-2"><span class="icon-calendar"></span>2023 – 2024</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sertifikasi" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-certificate">Sertifikasi</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">CCNA: Intro to Networks</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">CCNA: Switching, Routing, Wireless Essentials</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">CCNA: Enterprise Networking, Security & Automation</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Ruijie RCNA Routing & Switching</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Ruijie RCNA Wireless LAN</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Fortinet Certified Fundamentals Cybersecurity</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Fortinet Certified Associate Cybersecurity</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Ruckus ICX Implementer (RICXI)</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Ruckus SmartZone Admin (RASZA)</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Cybersecurity Awareness - CAPC</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Furukawa Cabling System</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">National Cyber Exercise (BSSN)</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Mikrotik MTCNA</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Mikrotik MTCRE</p>
+                    </div>
+                    <div class="card certification-card p-4 sm:p-5 text-center flex flex-col justify-center items-center">
+                        <p class="font-semibold text-sky-400 text-sm sm:text-base">Mikrotik MTCINE</p>
+                    </div>
+                     </div>
+            </div>
+        </section>
+        
+        <section id="proyek" class="section bg-gray-800/30">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-project">Inisiatif & Proyek</h2>
+                <div class="text-center text-gray-400">
+                    <p class="text-md sm:text-lg">Saat ini sedang menyusun detail proyek-proyek relevan untuk ditampilkan di sini.</p>
+                    <p class="mt-3 text-sm sm:text-md">Fokus pada solusi jaringan inovatif, skrip otomatisasi, dan implementasi keamanan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontak" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-sky-400 mb-12 sm:mb-16 text-center icon-contact">Mari Berdiskusi</h2>
+                <div class="max-w-xl mx-auto card p-8 sm:p-10 text-center">
+                    <p class="text-gray-300 text-md sm:text-lg mb-8">
+                        Saya antusias untuk menjajaki peluang kolaborasi, proyek menantang, atau sekadar berbagi wawasan seputar dinamika teknologi jaringan dan sistem terkini.
+                    </p>
+                    <p class="text-xl sm:text-2xl font-bold text-sky-400 mb-3">
+                        <a href="mailto:mnursyafaq@gmail.com" class="hover:underline">mnursyafaq@gmail.com</a>
+                    </p>
+                    <p class="text-lg sm:text-xl font-semibold text-sky-500">
+                        LinkedIn: <a href="https://www.linkedin.com/in/moch-nursafaq-LINKEDIN" class="hover:underline">Moch Nursafaq</a>
+                    </p>
+                    <p class="text-gray-500 mt-6 text-xs sm:text-sm">(Ganti dengan tautan LinkedIn Anda yang sebenarnya)</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 border-t border-gray-700 text-gray-400 py-12 text-center">
+        <div class="container mx-auto px-6">
+            <p class="text-md sm:text-lg">&copy; <span id="currentYear"></span> Moch Nursafaq. All rights reserved.</p>
+            <p class="text-xs sm:text-sm text-gray-500 mt-2">Dirancang dengan ❤️ dan Secangkir Kopi.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+        const header = document.getElementById('header');
+        const headerHeight = header ? header.offsetHeight : 70;
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function changeActiveLink() {
+            let index = sections.length;
+            while(--index && window.scrollY + headerHeight + 50 < sections[index].offsetTop) {} 
+            
+            navLinks.forEach((link) => link.classList.remove('active'));
+            const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[index].id}"]`);
+            const activeMobileLink = document.querySelector(`.mobile-menu .nav-link[href="#${sections[index].id}"]`);
+            if (activeDesktopLink) activeDesktopLink.classList.add('active');
+            if (activeMobileLink) activeMobileLink.classList.add('active');
+        }
+
+        function smoothScrollToTarget(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const offsetPosition = elementPosition - headerHeight;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                smoothScrollToTarget(targetId);
+                // For mobile menu, close it after click
+                if (mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                }
+                // Manually set active class (will be updated by scroll too)
+                navLinks.forEach(l => l.classList.remove('active'));
+                 const clickedDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${targetId}"]`);
+                 const clickedMobileLink = document.querySelector(`.mobile-menu .nav-link[href="#${targetId}"]`);
+                 if(clickedDesktopLink) clickedDesktopLink.classList.add('active');
+                 if(clickedMobileLink) clickedMobileLink.classList.add('active');
+            });
+        });
+        
+        const logoLink = document.querySelector('header nav a[href="#beranda"]');
+        if (logoLink) {
+            logoLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                navLinks.forEach(l => l.classList.remove('active'));
+                 const berandaDesktopLink = document.querySelector('.hidden.md\\:flex .nav-link[href="#beranda"]');
+                 const berandaMobileLink = document.querySelector('.mobile-menu .nav-link[href="#beranda"]');
+                 if(berandaDesktopLink) berandaDesktopLink.classList.add('active');
+                 if(berandaMobileLink) berandaMobileLink.classList.add('active');
+            });
+        }
+
+        // Mobile menu toggle
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 }); 
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        window.addEventListener('scroll', changeActiveLink);
+        // Initial check for active link and visible sections
+        setTimeout(() => { // Delay to ensure layout is stable
+            changeActiveLink();
+            sections.forEach(section => {
+                if (section.getBoundingClientRect().top < window.innerHeight && section.getBoundingClientRect().bottom > 0) {
+                    section.classList.add('visible');
+                }
+            });
+        }, 100);
+
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
